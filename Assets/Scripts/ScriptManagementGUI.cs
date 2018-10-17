@@ -9,20 +9,24 @@ public class ScriptManagementGUI : MonoBehaviour {
 	public bool canShowMenu = false;
 
 	// Allocation de mémoire pour les objets ainsi que les scripts associés
+	
+	// Humain
 	private GameObject humanObject;
+
+	// Triggers (evennements)
 	private GameObject trigCentral;
 	private GameObject trigTableau;
+
+	// Panels
 	private GameObject panelMenuCentral;
 	private GameObject panelMenuDiplomacy;
+	private GameObject panelMenuEconomy;
 	private GameObject panelInformatif;
-	private GameObject buttonCloseMenuCentral;
-	private GameObject buttonCloseMenuDiplomacy;
 
+	// Scripts
 	private ScriptHuman scriptHuman;
 	private ScriptMenuCentral scriptCentral;
 	private ScriptMenuDiplomacy scriptTableau; // MenuDiplomacy
-	private ScriptMenuCentral scriptCloseMenuCentral;
-	private ScriptMenuDiplomacy scriptCloseMenuTableau;
 
 	// Use this for initialization
 	void Start () 
@@ -40,18 +44,18 @@ public class ScriptManagementGUI : MonoBehaviour {
 		// Objets permettant l'affichage d'un menu
 		panelMenuCentral = GameObject.Find("PanelMenuCentral");
 		panelMenuDiplomacy = GameObject.Find("PanelMenuDiplomacy"); // MenuDiplomacy
+		panelMenuEconomy = GameObject.Find("PanelMenuEconomy");
 		panelInformatif = GameObject.Find("PanelInformatif");
 
 		// Objet permettant de fermer un menu
-		buttonCloseMenuCentral = GameObject.Find("ButtonCloseMenuCentral");
-		buttonCloseMenuDiplomacy = GameObject.Find("ButtonCloseMenuDiplomacy");
+
 
 		// Script associés aux objets
 		scriptHuman = humanObject.GetComponent<ScriptHuman>();
 		scriptCentral = trigCentral.GetComponent<ScriptMenuCentral>();
 		scriptTableau = trigTableau.GetComponent<ScriptMenuDiplomacy>();
-		scriptCloseMenuCentral = buttonCloseMenuCentral.GetComponent<ScriptMenuCentral>();
-		scriptCloseMenuTableau = buttonCloseMenuDiplomacy.GetComponent<ScriptMenuDiplomacy>();
+
+
 	}
 	
 	// Update is called once per frame
@@ -62,18 +66,18 @@ public class ScriptManagementGUI : MonoBehaviour {
 		// Si le joueur appuie sur ENTER
 		if(Input.GetKey(KeyCode.KeypadEnter))
 		{
-			// Si la touche ENTER est pressée et qu'un trigger est actionné
+			// et que le personnage se trouve sur un trigger
 			if(ATriggerIsTrue(scriptCentral.onTriggerCentral,scriptTableau.onTriggerTableau))
 			{
-				// Le personnage ne peut plus bouger et le GUI apparaît
+				// Le personnage ne peut plus bouger et le GUI peut apparaître
 				scriptHuman.canMove = false;
 				canShowMenu = true;
 			}
 		}
-		// Si le joueur clique sur un boutton quittant un menu
-		else if(scriptCloseMenuCentral.closeMenuCentral || scriptCloseMenuTableau.closeMenuTableau)
+		// Si aucun menu n'est affiché
+		else if(!panelMenuCentral.activeSelf && !panelMenuDiplomacy.activeSelf && !panelMenuEconomy.activeSelf)
 		{
-			// Le personnage peut bouger et le GUI disparait
+			// Le personnage peut bouger et le GUI ne peut plus apparaitre
 			scriptHuman.canMove = true;
 			canShowMenu = false;
 		}
@@ -84,17 +88,17 @@ public class ScriptManagementGUI : MonoBehaviour {
 		// Si le GUI peut apparaître
 		if(canShowMenu)
 		{
-			// Et que le personnage se trouve sur le trigger d'un tableau
+			// suivant le trigger sur lequel il est, affiché le menu suivant:
 			if(scriptTableau.onTriggerTableau)panelMenuDiplomacy.SetActive(true);
 			if(scriptCentral.onTriggerCentral)panelMenuCentral.SetActive(true);
 		}
+		// Sinon, ne rien afficher
 		else
 		{
 				panelMenuCentral.SetActive(false);
 				panelMenuDiplomacy.SetActive(false);
-				panelInformatif.SetActive(false);	
-				scriptCloseMenuCentral.closeMenuCentral = false;
-				scriptCloseMenuTableau.closeMenuTableau = false;	
+				panelMenuEconomy.SetActive(false);
+				panelInformatif.SetActive(false);		
 		}
 	}
 

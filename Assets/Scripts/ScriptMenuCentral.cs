@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScriptMenuCentral : MonoBehaviour {
-	public bool closeMenuCentral = false;
 	public bool onTriggerCentral = false;
 
 	// Use this for initialization
@@ -25,10 +24,5 @@ public class ScriptMenuCentral : MonoBehaviour {
 	void OnTriggerExit2D()
 	{
 		onTriggerCentral = false;
-	}
-
-	public void QuitMenu()
-	{
-		closeMenuCentral = true;
 	}
 }

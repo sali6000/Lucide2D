@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScriptMenuDiplomacy : MonoBehaviour {
-
-	public bool closeMenuTableau = false;
 	public bool onTriggerTableau = false;
 
 	// Use this for initialization
@@ -25,10 +23,4 @@ public class ScriptMenuDiplomacy : MonoBehaviour {
 	{
 		onTriggerTableau = false;
 	}
-
-	public void QuitMenu()
-	{
-		closeMenuTableau = true;
-	}
-
 }
